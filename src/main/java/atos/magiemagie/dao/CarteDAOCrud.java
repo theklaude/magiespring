@@ -13,4 +13,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author theklaude
  */
 public interface CarteDAOCrud extends CrudRepository<Carte, Long>{
+    
 }

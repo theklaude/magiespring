@@ -5,8 +5,6 @@
  */
 package atos.magiemagie.service;
 
-import atos.magiemagie.dao.CarteDAO;
-import atos.magiemagie.dao.CarteDAOCrud;
 import atos.magiemagie.dao.JoueurDAO;
 import atos.magiemagie.dao.JoueurDAOCrud;
 import atos.magiemagie.dao.PartieDAO;
@@ -28,20 +26,19 @@ public class JoueurService {
     private JoueurDAOCrud jDaoCrud;
 
     @Autowired
-    private CarteDAOCrud cDaoCrud;
-
-    @Autowired
     private PartieDAOCrud pDaoCrud;
 
     private JoueurDAO joueurDAO = new JoueurDAO();
     private PartieDAO partieDAO = new PartieDAO();
-    private CarteService carteServ = CarteService.instantiate();
-    private PartieService partieServ = new PartieService();
-    private CarteDAO carteDAO = new CarteDAO();
+    
+    @Autowired
+    private CarteService carteServ;
+    @Autowired
+    private PartieService partieServ;
 
     public Joueur rejoindrePartie(String pseudo, String avatar, long idPartie) {
         //Recherche si joueur existe déjà
-        Joueur joueur = joueurDAO.rechercherParPseudo(pseudo);
+        Joueur joueur = jDaoCrud.findOneByPseudo(pseudo);
         if (joueur == null) {
             // Le jour n'existe pas encore
             joueur = new Joueur();
@@ -55,15 +52,15 @@ public class JoueurService {
         joueur.setOrdre(ordre);
 
         //Associe le joueur à la partie et vice-versa (JPA relations bidirectionnelles
-        Partie partie = partieDAO.recherchePartieId(idPartie);
+        Partie partie = pDaoCrud.findOne(idPartie);
         joueur.setPartie(partie);
         List<Joueur> listeJoueurs = partie.getJoueurs();
         listeJoueurs.add(joueur);
 
         if (joueur.getId() == null) {
-            joueurDAO.ajouter(joueur);
+            jDaoCrud.save(joueur);
         } else {
-            joueurDAO.modifier(joueur);
+            jDaoCrud.save(joueur);
         }
         return joueur;
     }

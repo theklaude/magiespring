@@ -18,6 +18,26 @@ import javax.persistence.Query;
  */
 public class PartieDAO {
 
+    public Joueur rechercherJoueurQuiALaMain(long partieId) {
+        try{
+            EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+
+            Query query = em.createQuery(""
+                    + "SELECT j "
+                    + "FROM Joueur j"
+                    + "     JOIN j.partie p "
+                    + "WHERE j.etatJoueur  =:etat_alamain AND p.id=:partieId ");
+
+            query.setParameter("etat_alamain", Joueur.EtatJoueur.A_LA_MAIN);
+            query.setParameter("partieId", partieId);
+
+            return (Joueur) query.getSingleResult();
+        }catch(Exception err){// Retourne null si exception dans la requête ( genre NoResultException )
+            return null;
+        }
+    }
+    
+    
     public long rechercheOrdreMaxJoueurPourPartieId(long partieId) {
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
         Query q = em.createQuery("SELECT MAX(j.ordre) FROM Joueur j JOIN j.partie p WHERE p.id:=id");
@@ -84,29 +104,12 @@ public class PartieDAO {
         return query.getResultList();
     }
 
-    public Partie recherchePartieId(long idPartie) {
+    public Partie recherchePartieParId(long idPartie) {
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
         return em.find(Partie.class, idPartie);
     }
 
-    public Joueur rechercherJoueurQuiALaMain(long partieId) {
-        try{
-            EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
-
-            Query query = em.createQuery(""
-                    + "SELECT j "
-                    + "FROM Joueur j"
-                    + "     JOIN j.partie p "
-                    + "WHERE j.etatJoueur  =:etat_alamain AND p.id=:partieId ");
-
-            query.setParameter("etat_alamain", Joueur.EtatJoueur.A_LA_MAIN);
-            query.setParameter("partieId", partieId);
-
-            return (Joueur) query.getSingleResult();
-        }catch(Exception err){// Retourne null si exception dans la requête ( genre NoResultException )
-            return null;
-        }
-    }
+    
     public long nbreJoueur(long partieId) {
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
 

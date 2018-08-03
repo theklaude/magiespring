@@ -5,6 +5,7 @@
  */
 package atos.magiemagie.dao;
 
+import atos.magiemagie.entity.Joueur;
 import atos.magiemagie.entity.Partie;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -28,12 +29,10 @@ public interface PartieDAOCrud extends CrudRepository<Partie, Long> {
     public List<Partie> listerPartieNonDemarrees();
 
     
-    
-    public Partie recherchePartieParId(long Id);
 
     
-    public Partie recherchePartieParNom(String nom);
-    
+//    
+//    public Joueur findOneByEtatAndPartieId(A_LA_MAIN, long pId);
     
     
 

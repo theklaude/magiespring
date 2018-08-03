@@ -47,8 +47,8 @@ public class PartieService {
 
     public Sort choixSort(long idCarte1, long idCarte2) {
 
-        Carte c1 = cdao.rechercherCarteparId(idCarte1);
-        Carte c2 = cdao.rechercherCarteparId(idCarte2);
+        Carte c1 = cDaoCrud.findOne(idCarte1);
+        Carte c2 = cDaoCrud.findOne(idCarte2);
         Sort s = null;
 
         List<Ingredients> combinaison = new ArrayList<>();
@@ -72,8 +72,8 @@ public class PartieService {
     }
 
     public void lanceSort(long idPartie, long idLanceur, Long idVictime, Sort s) {
-        Partie p = pdao.recherchePartieId(idPartie);
-        Joueur victime = jdao.rechercherParId(idVictime);
+        Partie p = pDaoCrud.findOne(idPartie);
+        Joueur victime = jDaoCrud.findOne(idVictime);
 
         switch (s) {
             //tu prend une carte(au hasard) chez tous ses adversaires
@@ -113,14 +113,14 @@ public class PartieService {
     public void passeJoueurSuivant(long idPartie) {
 
         // Récupère joueur qui a la main => joueurQuiALaMain
-        Joueur joueurQuiALaMain = jdao.rechercheJoueurQuiALaMainPourPartieId(idPartie);
+        Joueur joueurQuiALaMain = pdao.rechercherJoueurQuiALaMain(idPartie);
 
         // Détermine si tous autres joueurs ont perdu
         // et passe le joueur à l'état gagné si c'est le cas
         // puis quitte la fonction
         if (pdao.determineSiPlusQueUnJoueurDansLaPartie(idPartie)) {
             joueurQuiALaMain.setEtat(Joueur.EtatJoueur.GAGNE);
-            jdao.modifier(joueurQuiALaMain);
+             jDaoCrud.save(joueurQuiALaMain);
             return; //interrompre la boucle
         }
         // La partie n'est pas terminée
@@ -148,7 +148,7 @@ public class PartieService {
             // Si joueurEvalue en sommeil profond => son etat passe à PAS LA MAIN
             if (joueurEvalue.getEtatJoueur() == Joueur.EtatJoueur.SOMMEIL_PROFOND) {
                 joueurEvalue.setEtat(Joueur.EtatJoueur.PAS_LA_MAIN);
-                jdao.modifier(joueurEvalue);
+                 jDaoCrud.save(joueurEvalue);
             } else {
                 // N'était pas en sommeil profond
 
@@ -156,10 +156,10 @@ public class PartieService {
                 if (joueurEvalue.getEtatJoueur() == Joueur.EtatJoueur.PAS_LA_MAIN) {
 
                     joueurQuiALaMain.setEtat(Joueur.EtatJoueur.PAS_LA_MAIN);
-                    jdao.modifier(joueurQuiALaMain);
+                    jDaoCrud.save(joueurQuiALaMain);
 
                     joueurEvalue.setEtat(Joueur.EtatJoueur.A_LA_MAIN);
-                    jdao.modifier(joueurEvalue);
+                    jDaoCrud.save(joueurEvalue);
 
                     return;
                 }
@@ -191,7 +191,7 @@ public class PartieService {
         for (Joueur j : p.getJoueurs()) {
             if (j.getOrdre() == 1) {
                 j.setEtat(Joueur.EtatJoueur.A_LA_MAIN);
-                jdao.updateJoueur(j);
+                jDaoCrud.save(j);
 
             }
         }
@@ -210,7 +210,7 @@ public class PartieService {
     public Partie creerNouvellePartie(String nom) {
         Partie p = new Partie();
         p.setNom(nom);
-        pdao.ajouter(p);
+        pDaoCrud.save(p);
         return p;
     }
 
