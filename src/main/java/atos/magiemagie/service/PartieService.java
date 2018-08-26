@@ -43,7 +43,8 @@ public class PartieService {
     private JoueurDAO jdao = new JoueurDAO();
     
     
-    private CarteService carteServ = CarteService.instantiate();
+    @Autowired
+    private CarteService carteServ;
 
     public Sort choixSort(long idCarte1, long idCarte2) {
 

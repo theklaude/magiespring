@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,10 +24,10 @@
         <div class="jumbotron">
 
             <h3>Choisissez un pseudo:</h3>
-            <form method="POST">
+            <form:form modelAttribute="joueur">
                 <div class="form-group">
                     <label for="formGroupExampleInput"></label>
-                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="pseudo" name="pseudo">
+                    <form:input type="text" class="form-control" id="formGroupExampleInput" placeholder="pseudo" path="pseudo" name="pseudo"/>
                 </div>
 
                 <h3>
@@ -39,7 +40,8 @@
                         <div class="col-item">
                             <div class="photo">
                                 <img src="<c:url value="/CSS/img/avatar1.png"/>" class="img-responsive" alt="a" />
-                                <input type="radio" name="avatar" value="avatar1">
+                                <form:radiobutton path="avatar" value="avatar1"/>
+                                <!--<input type="radio" name="avatar" value="avatar1">-->
                             </div>
                         </div>
                     </div>
@@ -47,7 +49,7 @@
                         <div class="col-item">
                             <div class="photo">
                                 <img src="<c:url value="/CSS/img/avatar2.png"/>" class="img-responsive" alt="a" />
-                                <input type="radio" name="avatar" value="avatar2">
+                                <form:radiobutton path="avatar" value="avatar2"/>
                             </div>
                         </div>
                     </div>
@@ -55,7 +57,7 @@
                         <div class="col-item">
                             <div class="photo">
                                 <img src="<c:url value="/CSS/img/avatar3.png"/>" class="img-responsive" alt="a" />
-                                <input type="radio" name="avatar" value="avatar3">
+                                <form:radiobutton path="avatar" value="avatar3"/>
                             </div>
                         </div>
                     </div>
@@ -63,7 +65,7 @@
                         <div class="col-item">
                             <div class="photo">
                                 <img src="<c:url value="/CSS/img/avatar4.png"/>" class="img-responsive" alt="a" />
-                                <input type="radio" name="avatar" value="avatar4">
+                                <form:radiobutton path="avatar" value="avatar4"/>
                             </div>
                         </div>
                     </div>
@@ -77,7 +79,7 @@
 
                     
                 </div>
-            </form>
+            </form:form>
         </div>
 
 

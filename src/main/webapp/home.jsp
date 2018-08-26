@@ -25,11 +25,11 @@
                     <br>
                     <br>
                     <div class="btn-group">
-                        <a class="btn btn-primary btn-lg" href="<c:url value="/creer-partie"/>?" role="button">Créer une partie</a>
+                        <a class="btn btn-primary btn-lg" href="<c:url value="/creer-partie"/>" role="button">Créer une partie</a>
                     </div>
 
                     <div class="btn-group">
-                        <a class="btn btn-primary btn-lg" href="<c:url value="/lister-partie"/>?" role="button">Rejoindre une partie</a>
+                        <a class="btn btn-primary btn-lg" href="<c:url value="/lister-partie"/>" role="button">Rejoindre une partie</a>
                     </div>
                 </div>
             

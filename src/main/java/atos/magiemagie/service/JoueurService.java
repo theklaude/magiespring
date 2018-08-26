@@ -14,6 +14,7 @@ import atos.magiemagie.entity.Partie;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -30,12 +31,13 @@ public class JoueurService {
 
     private JoueurDAO joueurDAO = new JoueurDAO();
     private PartieDAO partieDAO = new PartieDAO();
-    
+
     @Autowired
     private CarteService carteServ;
     @Autowired
     private PartieService partieServ;
 
+    @Transactional
     public Joueur rejoindrePartie(String pseudo, String avatar, long idPartie) {
         //Recherche si joueur existe déjà
         Joueur joueur = jDaoCrud.findOneByPseudo(pseudo);
@@ -57,12 +59,7 @@ public class JoueurService {
         List<Joueur> listeJoueurs = partie.getJoueurs();
         listeJoueurs.add(joueur);
 
-        if (joueur.getId() == null) {
-            jDaoCrud.save(joueur);
-        } else {
-            jDaoCrud.save(joueur);
-        }
-        return joueur;
+        return jDaoCrud.save(joueur);
     }
 
     public void passerMain(long idJoueur) {

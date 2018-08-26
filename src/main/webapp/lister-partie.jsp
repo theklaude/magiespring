@@ -41,7 +41,7 @@
                             <td>${partie.id}</td>
                             <td>${partie.nom}</td>
                             <td>${partie.joueurs.size()}</td>
-                            <td><a href="<c:url value="/pseudo-avatar"/>?idPartie=${partie.id}">
+                            <td><a href="<c:url value="/pseudo-avatar"/>/${partie.id}">
                                     <button class="btn btn-primary">Rejoindre partie</button>
                                 </a></td>
                         </tr>
